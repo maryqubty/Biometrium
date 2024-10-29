@@ -22,18 +22,19 @@ def fingerprints_load(fingerprints_source, proc_fingerprints_source):
     labels = []
 
     for img in os.listdir(fingerprints_source):
-        if img.endswith('.tif'):
+        if img.endswith('.tiff'):
             img_source = os.path.join(fingerprints_source, img)
             processed_image = process_image(img_source)
             flattened_image = np.array(processed_image).flatten()
             images.append(flattened_image)
 
             img_labels = img.split('_')
-            label = img_labels[0]
+            label = img_labels[0] + '_' + img_labels[1]  # Updated to include both person and finger
             labels.append(label)
 
             save_processed_image(processed_image, img, proc_fingerprints_source)
 
+    print("Fingerprints are loaded and processed.")
     return images, labels
 
 def process_image(image_path):
